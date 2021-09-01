@@ -2,13 +2,13 @@ package in.nareshit.raghu.controller;
 
 //ctrl+shift+O
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
 
-	@RequestMapping("/show")
-	public String show() {
-		return "HomePage";
+	@GetMapping("/index")
+	public String landingPage() {
+		return "index";
 	}
 }
