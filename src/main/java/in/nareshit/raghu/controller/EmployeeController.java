@@ -1,5 +1,7 @@
 package in.nareshit.raghu.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,13 @@ public class EmployeeController {
 		String message = "Employee '" + id + "' Created";
 		model.addAttribute("message", message);
 		return "EmployeeRegister";
+	}
+	
+	@GetMapping("/all")
+	public String viewAllEmployees(Model model) {
+		List<Employee> list = service.getAllEmployees();
+		model.addAttribute("list", list);
+		return "EmployeeData";
 	}
 
 }

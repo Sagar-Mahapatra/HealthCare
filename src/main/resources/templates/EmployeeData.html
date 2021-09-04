@@ -1,0 +1,32 @@
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+	<div class="container">
+		<table class="table table-hover">
+			<tr class="bg-info text-white">
+				<th>ID</th>
+				<th>NAME</th>
+				<th>SALARY</th>
+				<th>DEPT</th>
+				<th>ADDRESS</th>
+				<th>OPERATIONS</th>
+			</tr>
+			<tr th:each="ob:${list}">
+				<td th:text="${ob.id}"></td>
+				<td th:text="${ob.empName}"></td>
+				<td th:text="${ob.empSal}"></td>
+				<td th:text="${ob.empDept}"></td>
+				<td th:text="${ob.empAddr}"></td>
+				<td><a th:href="@{/employee/delete(id=${ob.id})}"
+					class="btn btn-danger">DELETE</a> | <a th:href="#"
+					class="btn btn-danger">EDIT</a></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

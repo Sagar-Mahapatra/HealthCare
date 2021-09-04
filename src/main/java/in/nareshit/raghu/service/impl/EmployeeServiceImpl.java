@@ -1,5 +1,7 @@
 package in.nareshit.raghu.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public Integer saveEmployee(Employee employee) {
 
 		return repo.save(employee).getId();
+	}
+
+	public List<Employee> getAllEmployees() {
+		List<Employee> list = repo.findAll();
+		return list;
 	}
 
 }
