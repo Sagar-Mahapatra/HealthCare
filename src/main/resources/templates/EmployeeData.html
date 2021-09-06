@@ -23,11 +23,12 @@
 				<td th:text="${ob.empDept}"></td>
 				<td th:text="${ob.empAddr}"></td>
 				<td><a th:href="@{/employee/delete(id=${ob.id})}"
-					class="btn btn-danger">DELETE</a> | <a class="btn btn-primary">EDIT</a></td>
+					class="btn btn-danger">DELETE</a> | <a
+					th:href="@{/employee/edit(id=${ob.id})}" class="btn btn-primary">EDIT</a></td>
 			</tr>
 		</table>
 		<div>
-			<h1 class="text-success" th:text="${msg}"></h1>
+			<h1 class="text-success" th:text="${message}"></h1>
 		</div>
 	</div>
 </body>

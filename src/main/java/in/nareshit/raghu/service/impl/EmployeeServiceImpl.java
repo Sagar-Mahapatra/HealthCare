@@ -1,6 +1,7 @@
 package in.nareshit.raghu.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,22 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public void deleteEmployee(Integer id) {
 		repo.deleteById(id);
+
+	}
+
+	@Override
+	public Employee getOneEmployee(Integer id) {
+		// Optional is introduced in java-1.8 to avoid null pointer exception
+		Optional<Employee> emp = repo.findById(id);
+		if (emp.isPresent()) {
+			return emp.get();
+		}
+		return null;
+	}
+
+	@Override
+	public void updateEmployee(Employee emp) {
+		repo.save(emp);
 
 	}
 

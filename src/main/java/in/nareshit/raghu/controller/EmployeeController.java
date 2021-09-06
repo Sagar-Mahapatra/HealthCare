@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Employee;
 import in.nareshit.raghu.service.IEmployeeService;
@@ -35,9 +36,10 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/all")
-	public String viewAllEmployees(Model model) {
+	public String viewAllEmployees(Model model, RedirectAttributes attr) {
 		List<Employee> list = service.getAllEmployees();
 		model.addAttribute("list", list);
+		attr.getAttribute("message");
 		return "EmployeeData";
 	}
 
@@ -45,8 +47,22 @@ public class EmployeeController {
 	public String deleteEmployee(@RequestParam Integer id, Model model) {
 		service.deleteEmployee(id);
 		model.addAttribute("msg", "Employee " + id + " deleted...");
-//		return "redirect:/employee/all";
-		return "EmployeeData";
+		return "redirect:all";
+	}
+
+	@GetMapping("/edit")
+	public String showEmployeeEdit(@RequestParam Integer id, Model model) {
+		Employee employee = service.getOneEmployee(id);
+		model.addAttribute("employee", employee);
+		return "EmployeeEdit";
+	}
+
+	@PostMapping("/update")
+	public String updateEmployee(@ModelAttribute Employee employee, RedirectAttributes attr) {
+		service.updateEmployee(employee);
+		String message = "Employee Updated";
+		attr.addAttribute("message", message);
+		return "redirect:all";
 	}
 
 }
