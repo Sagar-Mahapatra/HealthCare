@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import in.nareshit.raghu.entity.Employee;
 import in.nareshit.raghu.service.IEmployeeService;
@@ -32,11 +33,19 @@ public class EmployeeController {
 		model.addAttribute("message", message);
 		return "EmployeeRegister";
 	}
-	
+
 	@GetMapping("/all")
 	public String viewAllEmployees(Model model) {
 		List<Employee> list = service.getAllEmployees();
 		model.addAttribute("list", list);
+		return "EmployeeData";
+	}
+
+	@GetMapping("/delete")
+	public String deleteEmployee(@RequestParam Integer id, Model model) {
+		service.deleteEmployee(id);
+		model.addAttribute("msg", "Employee " + id + " deleted...");
+//		return "redirect:/employee/all";
 		return "EmployeeData";
 	}
 

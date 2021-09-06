@@ -26,4 +26,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return list;
 	}
 
+	@Override
+	public void deleteEmployee(Integer id) {
+		repo.deleteById(id);
+
+	}
+
 }

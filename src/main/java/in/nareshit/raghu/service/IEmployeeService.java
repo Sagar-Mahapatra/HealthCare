@@ -7,6 +7,9 @@ import in.nareshit.raghu.entity.Employee;
 public interface IEmployeeService {
 
 	Integer saveEmployee(Employee employee);
+
 	List<Employee> getAllEmployees();
+
+	void deleteEmployee(Integer id);
 
 }
