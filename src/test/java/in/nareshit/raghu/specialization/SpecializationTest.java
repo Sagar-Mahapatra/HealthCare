@@ -1,6 +1,9 @@
 package in.nareshit.raghu.specialization;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,9 +45,20 @@ public class SpecializationTest {
 		assertNotNull(id, "spec is not saved to DB");
 	}
 
+	@Test
+	@Order(2)
+	public void testSpecFetchAll() {
+		List<Specialization> list = repo.findAll();
+		assertNotNull(list);
+		if (list.isEmpty()) {
+			fail("no data exist in DB");
+		}
+	}
+
 	@AfterAll
 	public static void clean() {
 		spec = null;
+
 	}
 
 }
