@@ -24,8 +24,21 @@ $(document).ready(function() {
 			$("#specCodeError").css('color', 'red');
 			specCodeError = false;
 		} else {
-			$("#specCodeError").hide();
-			specCodeError = true;
+			$.ajax({
+				url: 'checkCode',
+				data: { "code": val },
+				success: function(resTxt) {
+					if (resTxt != '') {
+						$("#specCodeError").show();
+						$("#specCodeError").html(resTxt);
+						$("#specCodeError").css('color', 'red');
+						specCodeError = false;
+					} else {
+						$("#specCodeError").hide();
+						specCodeError = true;
+					}
+				}
+			});
 		}
 		return specCodeError;
 	}
@@ -41,7 +54,7 @@ $(document).ready(function() {
 		} else if (!exp.test(val)) {
 			$("#specNameError").show();
 			$("#specNameError").html("*<b>Name</b> must be 4-25 chars")
-			$("#specNameError").css('color',  'red');
+			$("#specNameError").css('color', 'red');
 			specNameError = false;
 		} else {
 			$("#specNameError").hide();

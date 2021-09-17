@@ -51,4 +51,10 @@ public class SpecializationServiceImpl implements ISpecializationService {
 
 	}
 
+	@Override
+	public boolean isCodeUnique(String specCode) {
+		Integer codeCount = repo.codeCount(specCode);
+		return (codeCount == 0) ? true : false;
+	}
+
 }

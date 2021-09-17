@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Specialization;
@@ -23,9 +24,18 @@ public class SpecializationController {
 	private ISpecializationService service;
 
 	@GetMapping("/register")
-	public String displayRegister() {
+	public String displayRegister(Model model) {
+		model.addAttribute("spec", new Specialization());
 		return "specializationRegister";
 
+	}
+
+	@PostMapping("/save")
+	public String saveForm(@ModelAttribute Specialization specialization, Model model) {
+		Long id = service.saveSpecialization(specialization);
+		String message = "Record (" + id + ") is created";
+		model.addAttribute("message", message);
+		return "SpecializationRegister";
 	}
 
 	@GetMapping("/all")
@@ -55,6 +65,15 @@ public class SpecializationController {
 		service.updateSpecialization(specialization);
 		attributes.addAttribute("message", "Record (" + specialization.getId() + ") is updated");
 		return "redirect:all";
+	}
+
+	@ResponseBody
+	@GetMapping("/checkCode")
+	public String checkCode(@RequestParam String code) {
+		boolean codeUnique = service.isCodeUnique(code);
+
+		return (codeUnique) ? "" : "Code Already Exists";
+
 	}
 
 }
