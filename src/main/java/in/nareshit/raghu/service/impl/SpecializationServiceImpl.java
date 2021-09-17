@@ -57,4 +57,10 @@ public class SpecializationServiceImpl implements ISpecializationService {
 		return (codeCount == 0) ? true : false;
 	}
 
+	@Override
+	public boolean isNameUnique(String name) {
+		Integer nameCount = repo.nameCount(name);
+		return (nameCount) == 0 ? true : false;
+	}
+
 }

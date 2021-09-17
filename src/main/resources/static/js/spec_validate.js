@@ -57,8 +57,21 @@ $(document).ready(function() {
 			$("#specNameError").css('color', 'red');
 			specNameError = false;
 		} else {
-			$("#specNameError").hide();
-			specNameError = true;
+			$.ajax({
+				url: 'checkName',
+				data: { "name": val },
+				success: function(resTxt) {
+					if (resTxt != '') {
+						$("#specNameError").show();
+						$("#specNameError").html(resTxt);
+						$("#specNameError").css('color', 'red');
+						specNameError = false;
+					} else {
+						$("#specNameError").hide();
+						specNameError = true;
+					}
+				}
+			});
 		}
 
 		return specNameError;
