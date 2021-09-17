@@ -43,12 +43,10 @@ table tr th, td {
 							<td th:text="${spec.specCode}"></td>
 							<td th:text="${spec.specName}"></td>
 							<td th:text="${spec.specNote}"></td>
-							<td><a th:href="@{/spec/delete(id=${ob.id})}"
+							<td><a th:href="@{/spec/delete(id=${spec.id})}"
 								class="btn btn-danger">DELETE <i class="fa fa-trash-o"
 									aria-hidden="true"></i>
-							</a></td>
-
-							<td><a th:href="@{/spec/edit(id=${ob.id})}"
+							</a> | <a th:href="@{/spec/edit(id=${spec.id})}"
 								class="btn btn-warning">EDIT <i
 									class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</a></td>

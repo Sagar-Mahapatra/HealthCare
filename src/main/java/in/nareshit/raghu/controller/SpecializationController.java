@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import in.nareshit.raghu.SpecNotFoundException;
 import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.service.ISpecializationService;
 
@@ -48,16 +49,29 @@ public class SpecializationController {
 
 	@GetMapping("/delete")
 	public String deleteData(@RequestParam Long id, RedirectAttributes attributes) {
-		service.removeSpecialization(id);
-		attributes.addAttribute("message", "Record (" + id + ") is removed");
+		try {
+			service.removeSpecialization(id);
+			attributes.addAttribute("message", "Record (" + id + ") is removed");
+		} catch (SpecNotFoundException e) {
+			e.printStackTrace();
+			attributes.addAttribute("message", e.getMessage());
+		}
+
 		return "redirect:all";
 	}
 
 	@GetMapping("/edit")
-	public String showEditPage(@RequestParam Long id, Model model) {
-		Specialization spec = service.getOneSpecialization(id);
-		model.addAttribute("specialization", spec);
-		return "SpecializationEdit";
+	public String showEditPage(@RequestParam Long id, Model model, RedirectAttributes attr) {
+		try {
+			Specialization spec = service.getOneSpecialization(id);
+			model.addAttribute("specialization", spec);
+			return "SpecializationEdit";
+		} catch (Exception e) {
+			e.printStackTrace();
+			attr.addAttribute("message", e.getMessage());
+			return "redirect:all";
+		}
+
 	}
 
 	@PostMapping("/update")

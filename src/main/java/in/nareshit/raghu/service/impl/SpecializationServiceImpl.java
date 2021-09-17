@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.nareshit.raghu.SpecNotFoundException;
 import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.repository.SpecializationRepository;
 import in.nareshit.raghu.service.ISpecializationService;
@@ -30,8 +31,13 @@ public class SpecializationServiceImpl implements ISpecializationService {
 
 	@Override
 	public void removeSpecialization(Long id) {
-		repo.deleteById(id);
+		Optional<Specialization> spec = repo.findById(id);
 
+		if (spec.isPresent()) {
+			repo.deleteById(id);
+		} else {
+			throw new SpecNotFoundException("Specialization not found with this id: " + id);
+		}
 	}
 
 	@Override
@@ -40,7 +46,7 @@ public class SpecializationServiceImpl implements ISpecializationService {
 		if (spec.isPresent()) {
 			return spec.get();
 		} else {
-			return null;
+			return spec.orElseThrow(() -> new SpecNotFoundException("Specialization not found with this id: " + id));
 		}
 
 	}
