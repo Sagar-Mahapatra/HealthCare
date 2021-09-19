@@ -69,4 +69,16 @@ public class SpecializationServiceImpl implements ISpecializationService {
 		return (nameCount) == 0 ? true : false;
 	}
 
+	@Override
+	public boolean isCodeUniqueForEdit(String specCode, Long id) {
+
+		return repo.codeCountForEdit(specCode, id) == 0;
+	}
+
+	@Override
+	public boolean isNameUniqueForEdit(String specCode, Long id) {
+
+		return repo.nameCountForEdit(specCode, id) == 0;
+	}
+
 }

@@ -83,17 +83,27 @@ public class SpecializationController {
 
 	@ResponseBody
 	@GetMapping("/checkName")
-	public String checkName(@RequestParam String name) {
-		boolean nameUnique = service.isNameUnique(name);
-		return (nameUnique) ? "" : "Name Already Exists";
+	public String checkName(@RequestParam String name, @RequestParam Long id) {
+		if (id == 0) {
+			boolean nameUnique = service.isNameUnique(name);
+			return (nameUnique) ? "" : "Name Already Exists";
+		} else {
+			boolean nameUniqueForEdit = service.isNameUniqueForEdit(name, id);
+			return (nameUniqueForEdit) ? "" : "Name Already Exists";
+		}
 
 	}
 
 	@ResponseBody
 	@GetMapping("/checkCode")
-	public String checkCode(@RequestParam String code) {
-		boolean codeUnique = service.isCodeUnique(code);
-		return (codeUnique) ? "" : "Code Already Exists";
+	public String checkCode(@RequestParam String code, @RequestParam Long id) {
+		if (id == 0) {
+			boolean codeUnique = service.isCodeUnique(code);
+			return (codeUnique) ? "" : "Code Already Exists";
+		} else {
+			boolean codeUniqueForEdit = service.isCodeUniqueForEdit(code, id);
+			return (codeUniqueForEdit) ? "" : "Code Already Exists";
+		}
 
 	}
 

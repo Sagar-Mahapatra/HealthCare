@@ -17,6 +17,10 @@ public interface ISpecializationService {
 	public void updateSpecialization(Specialization spec);
 
 	public boolean isCodeUnique(String specCode);
+	
+	public boolean isCodeUniqueForEdit(String specCode,Long id);
 
 	public boolean isNameUnique(String name);
+	
+	public boolean isNameUniqueForEdit(String specCode,Long id);
 }
