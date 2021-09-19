@@ -1,7 +1,9 @@
 package in.nareshit.raghu.service.impl;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,9 @@ public class SpecializationServiceImpl implements ISpecializationService {
 
 	@Override
 	public List<Specialization> getAllSpecializations() {
+		List<Specialization> list = repo.findAll();
 
-		return repo.findAll();
+		return list.stream().sorted(Comparator.comparing(Specialization::getSpecCode)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -38,16 +41,14 @@ public class SpecializationServiceImpl implements ISpecializationService {
 		} else {
 			throw new SpecNotFoundException("Specialization not found with this id: " + id);
 		}
+
 	}
 
 	@Override
 	public Specialization getOneSpecialization(Long id) {
-		Optional<Specialization> spec = repo.findById(id);
-		if (spec.isPresent()) {
-			return spec.get();
-		} else {
-			return spec.orElseThrow(() -> new SpecNotFoundException("Specialization not found with this id: " + id));
-		}
+
+		return repo.findById(id)
+				.orElseThrow(() -> new SpecNotFoundException("Specialization not found with this id: " + id));
 
 	}
 
@@ -59,14 +60,13 @@ public class SpecializationServiceImpl implements ISpecializationService {
 
 	@Override
 	public boolean isCodeUnique(String specCode) {
-		Integer codeCount = repo.codeCount(specCode);
-		return (codeCount == 0) ? true : false;
+
+		return repo.findAll().stream().filter(a -> a.getSpecCode().equals(specCode)).count() == 0;
 	}
 
 	@Override
 	public boolean isNameUnique(String name) {
-		Integer nameCount = repo.nameCount(name);
-		return (nameCount) == 0 ? true : false;
+		return repo.findAll().stream().filter(a -> a.getSpecName().equals(name)).count() == 0;
 	}
 
 	@Override
