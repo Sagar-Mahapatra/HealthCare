@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.SpecNotFoundException;
 import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.utils.ViewExcel;
 
 @Controller
 @RequestMapping("/spec")
@@ -104,6 +106,16 @@ public class SpecializationController {
 			boolean codeUniqueForEdit = service.isCodeUniqueForEdit(code, id);
 			return (codeUniqueForEdit) ? "" : "Code Already Exists";
 		}
+
+	}
+
+	@GetMapping("/excel")
+	public ModelAndView viewExcel() {
+		ModelAndView modelAndView = new ModelAndView();
+		List<Specialization> specializations = service.getAllSpecializations();
+		modelAndView.addObject("list", specializations);
+		modelAndView.setView(new ViewExcel());
+		return modelAndView;
 
 	}
 
