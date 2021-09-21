@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import in.nareshit.raghu.SpecNotFoundException;
 import in.nareshit.raghu.entity.Specialization;
+import in.nareshit.raghu.exception.SpecNotFoundException;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.utils.ViewExcel;
 

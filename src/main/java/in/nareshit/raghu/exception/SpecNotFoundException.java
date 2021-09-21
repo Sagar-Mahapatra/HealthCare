@@ -1,4 +1,4 @@
-package in.nareshit.raghu;
+package in.nareshit.raghu.exception;
 
 public class SpecNotFoundException extends RuntimeException {
 

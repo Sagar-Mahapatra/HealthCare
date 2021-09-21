@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import in.nareshit.raghu.SpecNotFoundException;
 import in.nareshit.raghu.entity.Specialization;
+import in.nareshit.raghu.exception.SpecNotFoundException;
 import in.nareshit.raghu.repository.SpecializationRepository;
 import in.nareshit.raghu.service.ISpecializationService;
 
