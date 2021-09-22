@@ -25,7 +25,7 @@
 						<th>ADDRESS</th>
 						<th>OPERATION</th>
 					</tr>
-					<tr th:each="ob:${list}">
+					<tr th:each="ob:${doctors}">
 						<td>[[${ob.firstName + ' ' +ob.lastName}]]</td>
 						<td th:text="${ob.email}"></td>
 						<td th:text="${ob.mobile}"></td>

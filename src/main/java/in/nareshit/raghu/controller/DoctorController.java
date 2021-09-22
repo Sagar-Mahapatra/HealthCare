@@ -1,7 +1,5 @@
 package in.nareshit.raghu.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,8 +39,8 @@ public class DoctorController {
 	// 3. display data
 	@GetMapping("/all")
 	public String display(@RequestParam(value = "message", required = false) String message, Model model) {
-		List<Doctor> list = service.getAllDoctors();
-		model.addAttribute("list", list);
+
+		model.addAttribute("doctors", service.getAllDoctors());
 		model.addAttribute("message", message);
 		return "DoctorData";
 	}
