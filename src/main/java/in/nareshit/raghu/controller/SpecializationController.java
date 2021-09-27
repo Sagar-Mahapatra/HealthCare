@@ -1,7 +1,5 @@
 package in.nareshit.raghu.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +41,8 @@ public class SpecializationController {
 
 	@GetMapping("/all")
 	public String viewAll(Model model, @RequestParam(value = "message", required = false) String message) {
-		List<Specialization> list = service.getAllSpecializations();
-		model.addAttribute("list", list);
+
+		model.addAttribute("list", service.getSpecializationsList());
 		model.addAttribute("message", message);
 		return "SpecializationData";
 	}
@@ -112,8 +110,7 @@ public class SpecializationController {
 	@GetMapping("/excel")
 	public ModelAndView viewExcel() {
 		ModelAndView modelAndView = new ModelAndView();
-		List<Specialization> specializations = service.getAllSpecializations();
-		modelAndView.addObject("list", specializations);
+		modelAndView.addObject("list", service.getAllSpecializations());
 		modelAndView.setView(new ViewExcel());
 		return modelAndView;
 

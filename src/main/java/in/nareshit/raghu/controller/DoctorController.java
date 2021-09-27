@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import in.nareshit.raghu.entity.Doctor;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.ISpecializationService;
 
 @Controller
 @RequestMapping("/doctor")
@@ -20,11 +21,14 @@ public class DoctorController {
 
 	@Autowired
 	private IDoctorService service;
+	@Autowired
+	private ISpecializationService specService;
 
 	// 1. show Register page
 	@GetMapping("/register")
 	public String showReg(@RequestParam(value = "message", required = false) String message, Model model) {
 		model.addAttribute("message", message);
+		model.addAttribute("specializations", specService.getAllSpecializations());
 		return "DoctorRegister";
 	}
 

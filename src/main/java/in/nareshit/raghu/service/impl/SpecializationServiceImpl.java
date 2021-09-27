@@ -1,7 +1,9 @@
 package in.nareshit.raghu.service.impl;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,10 +28,12 @@ public class SpecializationServiceImpl implements ISpecializationService {
 	}
 
 	@Override
-	public List<Specialization> getAllSpecializations() {
+	public Map<Long, String> getAllSpecializations() {
 		List<Specialization> list = repo.findAll();
 
-		return list.stream().sorted(Comparator.comparing(Specialization::getSpecCode)).collect(Collectors.toList());
+		List<Specialization> sortedList = list.stream().sorted(Comparator.comparing(Specialization::getSpecCode))
+				.collect(Collectors.toList());
+		return sortedList.stream().collect(Collectors.toMap(Specialization::getId, Specialization::getSpecName));
 	}
 
 	@Override
@@ -79,6 +83,13 @@ public class SpecializationServiceImpl implements ISpecializationService {
 	public boolean isNameUniqueForEdit(String specCode, Long id) {
 
 		return repo.nameCountForEdit(specCode, id) == 0;
+	}
+
+	@Override
+	public List<Specialization> getSpecializationsList() {
+		List<Specialization> list = repo.findAll();
+		Collections.sort(list, Comparator.comparing(Specialization::getSpecName));
+		return list;
 	}
 
 }
