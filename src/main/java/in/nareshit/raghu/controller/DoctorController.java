@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +15,19 @@ import in.nareshit.raghu.entity.Doctor;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.utils.MyMailUtil;
 
 @Controller
 @RequestMapping("/doctor")
 public class DoctorController {
 
+	private static Logger logger = Logger.getLogger(DoctorController.class);
 	@Autowired
 	private IDoctorService service;
 	@Autowired
 	private ISpecializationService specService;
+	@Autowired
+	private MyMailUtil mailUtil;
 
 	// 1. show Register page
 	@GetMapping("/register")
@@ -35,8 +40,25 @@ public class DoctorController {
 	// 2. save on submit
 	@PostMapping("/save")
 	public String save(@ModelAttribute Doctor doctor, RedirectAttributes attributes) {
+
 		Long id = service.saveDoctor(doctor);
-		attributes.addAttribute("message", "Doctor (" + id + ") is created");
+
+		try {
+			if (id != null) {
+				attributes.addAttribute("message", "Doctor (" + id + ") is created");
+				new Thread(() -> {
+					mailUtil.send(doctor.getEmail(), "Registration Success", "Doctor (" + id + ") is created");
+				}).start();
+				logger.info("Doctor id: (" + id + ") is created & mail sent successfully");
+			} else {
+				attributes.addAttribute("message", "Doctor Registration Failed");
+				logger.error("Doctor Registration Failed");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("Mail Sending Failed");
+		}
+
 		return "redirect:register";
 	}
 
