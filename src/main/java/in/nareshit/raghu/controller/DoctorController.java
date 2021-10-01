@@ -1,6 +1,7 @@
 package in.nareshit.raghu.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ import in.nareshit.raghu.utils.MyMailUtil;
 @RequestMapping("/doctor")
 public class DoctorController {
 
-	private static Logger logger = Logger.getLogger(DoctorController.class);
+	private Logger logger = LoggerFactory.getLogger(DoctorController.class);
 	@Autowired
 	private IDoctorService service;
 	@Autowired

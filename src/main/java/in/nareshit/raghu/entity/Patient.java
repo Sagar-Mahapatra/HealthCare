@@ -1,12 +1,16 @@
 package in.nareshit.raghu.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -32,10 +36,12 @@ public class Patient {
 	private String maritalStatus;
 	@Column(name = "Present_Address")
 	private String presentAddress;
-	@Column(name = "PermanentAddress")
+	@Column(name = "Permanent_Address")
 	private String permanentAddress;
-	@Column(name = "Medical_History")
-	private String medicalHistory;
+
+	@ElementCollection
+	@CollectionTable(name = "PATIENT_MEDICAL_HISTORY", joinColumns = @JoinColumn(name = "patinetId"))
+	private Set<String> medicalHistory;
 	@Column(name = "Other_Details")
 	private String otherDetails;
 }
