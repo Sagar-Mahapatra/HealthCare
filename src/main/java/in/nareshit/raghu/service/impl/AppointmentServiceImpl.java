@@ -13,12 +13,9 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	private AppointmentRepository repo;
 
 	@Override
-	public String saveAppointment(Appointment appointment) {
+	public Long saveAppointment(Appointment appointment) {
 		Appointment save = repo.save(appointment);
-		if (save != null) {
-			return "Your Appointment saved successfully on " + save.getAppointmentTime();
-		}
-		return "Something went WRONG!!!";
+		return save.getId();
 	}
 
 }

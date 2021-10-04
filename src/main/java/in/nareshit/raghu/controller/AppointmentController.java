@@ -18,8 +18,12 @@ public class AppointmentController {
 
 	@PostMapping("/save")
 	public String createAppointment(@ModelAttribute Appointment appointment, RedirectAttributes attr) {
-
-		attr.addAttribute("msg", service.saveAppointment(appointment));
+		Long id = service.saveAppointment(appointment);
+		if (id != null) {
+			attr.addAttribute("msg", "APPOINTMENT SAVED SUCCESSFULLY...");
+		} else {
+			attr.addAttribute("msg", "SOMETHING WENT WRONG!!!");
+		}
 		return "redirect:/index";
 
 	}
