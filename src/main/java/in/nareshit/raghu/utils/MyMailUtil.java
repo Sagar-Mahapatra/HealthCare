@@ -1,5 +1,6 @@
 package in.nareshit.raghu.utils;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,48 +14,49 @@ public class MyMailUtil {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	public boolean send(String to[], String cc[], String bcc[], String subject, String text, Resource files[]) {
+	public boolean send(String to[], String cc[], String bcc[], String subject, String text, Resource files[])
+			throws MessagingException {
 		boolean sent = false;
-		try {
-			// 1. create one empty message object
-			MimeMessage message = mailSender.createMimeMessage();
 
-			// 2. fill details (message, attachmentExist?)
-			MimeMessageHelper helper = new MimeMessageHelper(message, files != null && files.length > 0);
+		// 1. create one empty message object
+		MimeMessage message = mailSender.createMimeMessage();
 
-			helper.setTo(to);
+		// 2. fill details (message, attachmentExist?)
+		MimeMessageHelper helper = new MimeMessageHelper(message, files != null && files.length > 0);
 
-			if (cc != null)
-				helper.setCc(cc);
-			if (bcc != null)
-				helper.setBcc(bcc);
+		helper.setTo(to);
 
-			helper.setSubject(subject);
-			helper.setText(text);
+		if (cc != null)
+			helper.setCc(cc);
+		if (bcc != null)
+			helper.setBcc(bcc);
 
-			if (files != null) {
-				for (Resource rob : files) {
-					helper.addAttachment(rob.getFilename(), rob);
-				}
+		helper.setSubject(subject);
+		helper.setText(text);
+
+		if (files != null) {
+			for (Resource rob : files) {
+				helper.addAttachment(rob.getFilename(), rob);
 			}
-
-			// 3. send email
-			mailSender.send(message);
-
-			sent = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			sent = false;
 		}
+
+		// 3. send email
+		mailSender.send(message);
+
+		sent = true;
 		return sent;
 	}
 
-	/** overloaded methods */
-	public boolean send(String to, String subject, String text, Resource file) {
+	/**
+	 * overloaded methods
+	 * 
+	 * @throws MessagingException
+	 */
+	public boolean send(String to, String subject, String text, Resource file) throws MessagingException {
 		return send(new String[] { to }, null, null, subject, text, file != null ? new Resource[] { file } : null);
 	}
 
-	public boolean send(String to, String subject, String text) {
+	public boolean send(String to, String subject, String text) throws MessagingException {
 		return send(to, subject, text, null);
 	}
 }

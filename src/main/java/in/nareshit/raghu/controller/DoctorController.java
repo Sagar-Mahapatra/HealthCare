@@ -1,5 +1,7 @@
 package in.nareshit.raghu.controller;
 
+import javax.mail.MessagingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Doctor;
-import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.utils.MyMailUtil;
@@ -41,25 +42,21 @@ public class DoctorController {
 	// 2. save on submit
 	@PostMapping("/save")
 	public String save(@ModelAttribute Doctor doctor, RedirectAttributes attributes) {
-
 		Long id = service.saveDoctor(doctor);
-
-		try {
-			if (id != null) {
-				attributes.addAttribute("message", "Doctor (" + id + ") is created");
-				new Thread(() -> {
+		if (id != null) {
+			attributes.addAttribute("message", "Doctor (" + id + ") is created");
+			new Thread(() -> {
+				try {
 					mailUtil.send(doctor.getEmail(), "Registration Success", "Doctor (" + id + ") is created");
-				}).start();
-				logger.info("Doctor id: (" + id + ") is created & mail sent successfully");
-			} else {
-				attributes.addAttribute("message", "Doctor Registration Failed");
-				logger.error("Doctor Registration Failed");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("Mail Sending Failed");
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+			}).start();
+			logger.info("Doctor id: (" + id + ") is created & mail sent successfully");
+		} else {
+			attributes.addAttribute("message", "Doctor Registration Failed");
+			logger.error("Doctor Registration Failed");
 		}
-
 		return "redirect:register";
 	}
 
@@ -75,32 +72,17 @@ public class DoctorController {
 	// 4. delete by id
 	@GetMapping("/delete")
 	public String delete(@RequestParam("id") Long id, RedirectAttributes attributes) {
-		String message = null;
-		try {
-			service.removeDoctor(id);
-			message = "Doctor removed";
-		} catch (DoctorNotFoundException e) {
-			e.printStackTrace();
-			message = e.getMessage();
-		}
-		attributes.addAttribute("message", message);
+		service.removeDoctor(id);
+		attributes.addAttribute("message", "Doctor removed");
 		return "redirect:all";
 	}
 
 	// 5. show edit
 	@GetMapping("/edit")
 	public String edit(@RequestParam("id") Long id, Model model, RedirectAttributes attributes) {
-		String page = null;
-		try {
-			Doctor doc = service.getOneDoctor(id);
-			model.addAttribute("doctor", doc);
-			page = "DoctorEdit";
-		} catch (DoctorNotFoundException e) {
-			e.printStackTrace();
-			attributes.addAttribute("message", e.getMessage());
-			page = "redirect:all";
-		}
-		return page;
+		Doctor doc = service.getOneDoctor(id);
+		model.addAttribute("doctor", doc);
+		return "DoctorEdit";
 	}
 
 	// 6. do update

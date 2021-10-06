@@ -1,7 +1,6 @@
 package in.nareshit.raghu.exception;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -10,8 +9,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(AppointmentNotFoundException.class)
-	public String AppointmentNotFoundExceptionHandler(Model model) {
-		model.addAttribute("message", "APPOINTMENT NOT FOUND WITH THIS ID");
+	public String AppointmentNotFoundExceptionHandler() {
+		return "ErrorPage";
+	}
+
+	@ExceptionHandler(DoctorNotFoundException.class)
+	public String doctorNotFoundExceptionHandler() {
+		return "ErrorPage";
+	}
+
+	@ExceptionHandler(PatientNotFoundException.class)
+	public String patientNotFoundExceptionHandler() {
 		return "ErrorPage";
 	}
 
