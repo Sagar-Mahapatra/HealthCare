@@ -43,14 +43,8 @@ public class AppointmentController {
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam Long id, RedirectAttributes attr) {
-		try {
-			service.deleteAppointment(id);
-
-			attr.addAttribute("message", "Successfully Deleted");
-		} catch (Exception e) {
-			e.printStackTrace();
-			attr.addAttribute("message", e.getMessage());
-		}
+		service.deleteAppointment(id);
+		attr.addAttribute("message", "Successfully Deleted");
 		return "redirect:all";
 	}
 
