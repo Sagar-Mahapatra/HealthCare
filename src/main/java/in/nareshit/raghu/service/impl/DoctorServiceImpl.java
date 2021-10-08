@@ -31,7 +31,7 @@ public class DoctorServiceImpl implements IDoctorService {
 			userRepo.save(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR"));
 			return id;
 		} else {
-			throw new ApplicationError("SOMETHONG WENT WRONG!!! PLEASE TRY AGAIN");
+			throw new ApplicationError("SOMETHING WENT WRONG!!! PLEASE TRY AGAIN");
 		}
 
 	}
