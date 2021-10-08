@@ -23,4 +23,9 @@ public class GlobalExceptionHandler {
 		return "ErrorPage";
 	}
 
+	@ExceptionHandler(ApplicationError.class)
+	public String ApplicationErrorHandler() {
+		return "ErrorPage";
+	}
+
 }

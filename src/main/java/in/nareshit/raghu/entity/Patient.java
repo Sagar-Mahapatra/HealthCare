@@ -41,7 +41,7 @@ public class Patient {
 	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "MEDICAL_HISTORY_FK")
+	@Column(name = "MEDICAL_HISTORY")
 	@ElementCollection
 	@CollectionTable(name = "PATIENT_MEDICAL_HISTORY", joinColumns = @JoinColumn(name = "patientId"))
 	private Set<String> medicalHistory;
