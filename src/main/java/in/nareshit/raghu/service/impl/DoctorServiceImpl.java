@@ -11,8 +11,8 @@ import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.exception.ApplicationError;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.repository.DoctorRepository;
-import in.nareshit.raghu.repository.UserRepository;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.IUserService;
 
 @Service
 public class DoctorServiceImpl implements IDoctorService {
@@ -21,14 +21,15 @@ public class DoctorServiceImpl implements IDoctorService {
 	private DoctorRepository repo;
 
 	@Autowired
-	private UserRepository userRepo;
+	private IUserService userService;
 
 	@Override
 	@Transactional
 	public Long saveDoctor(Doctor doc) {
 		Long id = repo.save(doc).getId();
 		if (id != null) {
-			userRepo.save(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR"));
+			userService
+					.saveUser(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR"));
 			return id;
 		} else {
 			throw new ApplicationError("SOMETHING WENT WRONG!!! PLEASE TRY AGAIN");

@@ -1,6 +1,6 @@
 package in.nareshit.raghu.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -12,6 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Data;
 
@@ -30,8 +35,12 @@ public class Patient {
 	private String patientLastName;
 	@Column(name = "PATIENT_GENDER")
 	private String patientGender;
-	@Column(name = "PATIENT_DOB")
-	private LocalDate patientDob;
+	@Column(name = "PATIENT_CONTACT")
+	private String mobile;
+	@Column(name = "DOB")
+	@DateTimeFormat(iso = ISO.DATE)
+	@Temporal(TemporalType.DATE)
+	private Date dob;
 	@Column(name = "MARITAL_STATUS")
 	private String maritalStatus;
 	@Column(name = "PRESENT_ADDRESS")
