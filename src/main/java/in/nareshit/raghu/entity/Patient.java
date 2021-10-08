@@ -22,26 +22,30 @@ public class Patient {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Patient_Id")
-	private long patinetId;
-	@Column(name = "Patient_FirstName")
+	@Column(name = "PATIENT_ID")
+	private long patientId;
+	@Column(name = "PATIENT_FIRSTNAME")
 	private String patientFirstName;
-	@Column(name = "Patient_LastName")
+	@Column(name = "PATIENT_LASTNAME")
 	private String patientLastName;
-	@Column(name = "Patient_Gender")
+	@Column(name = "PATIENT_GENDER")
 	private String patientGender;
-	@Column(name = "Patient_DOB")
+	@Column(name = "PATIENT_DOB")
 	private LocalDate patientDob;
-	@Column(name = "Marital_Status")
+	@Column(name = "MARITAL_STATUS")
 	private String maritalStatus;
-	@Column(name = "Present_Address")
+	@Column(name = "PRESENT_ADDRESS")
 	private String presentAddress;
-	@Column(name = "Permanent_Address")
+	@Column(name = "PERMANENT_ADDRESS")
 	private String permanentAddress;
+	@Column(name = "EMAIL")
+	private String email;
 
+	@Column(name = "MEDICAL_HISTORY_FK")
 	@ElementCollection
-	@CollectionTable(name = "PATIENT_MEDICAL_HISTORY", joinColumns = @JoinColumn(name = "patinetId"))
+	@CollectionTable(name = "PATIENT_MEDICAL_HISTORY", joinColumns = @JoinColumn(name = "patientId"))
 	private Set<String> medicalHistory;
-	@Column(name = "Other_Details")
+
+	@Column(name = "OTHER_DETAILS")
 	private String otherDetails;
 }

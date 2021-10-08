@@ -18,7 +18,7 @@ public class PatientServiceImpl implements IpatientService {
 
 	@Override
 	public Long savePatient(Patient patient) {
-		return patientRepo.save(patient).getPatinetId();
+		return patientRepo.save(patient).getPatientId();
 
 	}
 
@@ -46,11 +46,11 @@ public class PatientServiceImpl implements IpatientService {
 
 	@Override
 	public void updatePatient(Patient patient) {
-		boolean p = patientRepo.existsById(patient.getPatinetId());
+		boolean p = patientRepo.existsById(patient.getPatientId());
 		if (p) {
 			patientRepo.save(patient);
 		} else
-			throw new PatientNotFoundException(patient.getPatinetId() + ", not exist");
+			throw new PatientNotFoundException(patient.getPatientId() + ", not exist");
 	}
 
 }
