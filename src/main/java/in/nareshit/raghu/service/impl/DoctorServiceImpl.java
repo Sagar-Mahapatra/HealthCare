@@ -31,9 +31,11 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Transactional
 	public Long saveDoctor(Doctor doc) {
 		Long id = repo.save(doc).getId();
+		String genPwd = passwordGenerator.genPwd();
+		System.out.println(genPwd);
 		if (id != null) {
-			userService.saveUser(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR",
-					passwordGenerator.genPwd()));
+			userService.saveUser(
+					new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR", genPwd));
 			return id;
 		} else {
 			throw new ApplicationError("SOMETHING WENT WRONG!!! PLEASE TRY AGAIN");

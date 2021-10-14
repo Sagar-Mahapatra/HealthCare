@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().permitAll().and().formLogin().defaultSuccessUrl("/index").and().logout();
+		http.authorizeRequests().antMatchers("/doctor/register", "/doctor/save").hasAuthority("DOCTOR").anyRequest()
+				.permitAll().and().formLogin().defaultSuccessUrl("/index").and().logout();
 	}
 }
