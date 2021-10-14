@@ -26,7 +26,7 @@ public class MasterAccountSetupRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		if (!service.findByUsername(userName).isPresent()) {
-			service.saveUser(new User(null, userName, displayName, "MASTER", passwordGenerator.genPwd()));
+			service.saveUser(new User(null, userName, displayName, "ADMIN", passwordGenerator.genPwd()));
 		}
 	}
 

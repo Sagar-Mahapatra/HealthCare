@@ -26,8 +26,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	private BCryptPasswordEncoder encoder;
 
 	public Integer saveUser(User user) {
-		String encodedPsw = encoder.encode(user.getPassword());
-		user.setPassword(encodedPsw);
+		// String encodedPsw = encoder.encode(user.getPassword());
+		// user.setPassword(encodedPsw);
 		return repo.save(user).getUId();
 	}
 
@@ -40,8 +40,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		Optional<User> optional = findByUsername(username);
 		if (optional.isPresent()) {
 			User user = optional.get();
-			return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-					Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
+			UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUserName(),
+					user.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
+			System.out.println(userDetails);
+			return userDetails;
 		} else {
 			throw new UsernameNotFoundException("NO USER FOUND WITH THIS USERNAME");
 		}
