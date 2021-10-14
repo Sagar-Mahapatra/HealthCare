@@ -13,6 +13,7 @@ import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.repository.DoctorRepository;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.IUserService;
+import in.nareshit.raghu.utils.PasswordGenerator;
 
 @Service
 public class DoctorServiceImpl implements IDoctorService {
@@ -23,13 +24,16 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Autowired
 	private IUserService userService;
 
+	@Autowired
+	private PasswordGenerator passwordGenerator;
+
 	@Override
 	@Transactional
 	public Long saveDoctor(Doctor doc) {
 		Long id = repo.save(doc).getId();
 		if (id != null) {
-			userService
-					.saveUser(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR"));
+			userService.saveUser(new User(null, doc.getEmail(), doc.getFirstName() + " " + doc.getLastName(), "DOCTOR",
+					passwordGenerator.genPwd()));
 			return id;
 		} else {
 			throw new ApplicationError("SOMETHING WENT WRONG!!! PLEASE TRY AGAIN");

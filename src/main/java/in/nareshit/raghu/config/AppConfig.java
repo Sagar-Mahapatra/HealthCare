@@ -3,7 +3,9 @@ package in.nareshit.raghu.config;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,5 +22,10 @@ public class AppConfig implements WebMvcConfigurer {
 		if (dirName.startsWith("../"))
 			dirName = dirName.replace("../", "");
 		registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/" + uploadPath + "/");
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }
