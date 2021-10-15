@@ -26,8 +26,8 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	private BCryptPasswordEncoder encoder;
 
 	public Integer saveUser(User user) {
-		// String encodedPsw = encoder.encode(user.getPassword());
-		// user.setPassword(encodedPsw);
+		String encodedPsw = encoder.encode(user.getPassword());
+		user.setPassword(encodedPsw);
 		return repo.save(user).getUId();
 	}
 

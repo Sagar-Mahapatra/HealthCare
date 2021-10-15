@@ -22,7 +22,8 @@ spring:
      mail:
       smtp:
        starttls:
-         enable: true 
+         enable: true
+       
 master:
   user:
     name: Sagar Mahapatra
