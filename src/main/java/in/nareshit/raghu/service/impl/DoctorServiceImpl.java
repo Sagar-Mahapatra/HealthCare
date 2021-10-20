@@ -1,6 +1,7 @@
 package in.nareshit.raghu.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 
@@ -15,6 +16,7 @@ import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.repository.DoctorRepository;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.IUserService;
+import in.nareshit.raghu.utils.ListToMapConverter;
 import in.nareshit.raghu.utils.MyMailUtil;
 import in.nareshit.raghu.utils.PasswordGenerator;
 
@@ -82,6 +84,17 @@ public class DoctorServiceImpl implements IDoctorService {
 			repo.save(doc);
 		else
 			throw new DoctorNotFoundException(doc.getId() + ", not exist");
+	}
+
+	@Override
+	public List<Doctor> findDoctorBySpecName(Long specId) {
+		return repo.findDoctorBySpecId(specId);
+	}
+
+	@Override
+	public Map<Long, String> getDoctorIdAndNames() {
+		List<Object[]> list = repo.getDoctorIdAndNames();
+		return ListToMapConverter.convertToMapIndex(list);
 	}
 
 }

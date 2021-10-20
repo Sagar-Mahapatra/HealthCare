@@ -26,4 +26,6 @@ public interface ISpecializationService {
 	public boolean isNameUniqueForEdit(String specCode, Long id);
 
 	public List<Specialization> getSpecializationsList();
+
+	Map<Long, String> getSpecIdAndName();
 }

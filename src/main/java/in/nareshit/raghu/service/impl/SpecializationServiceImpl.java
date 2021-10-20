@@ -14,6 +14,7 @@ import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.exception.SpecNotFoundException;
 import in.nareshit.raghu.repository.SpecializationRepository;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.utils.ListToMapConverter;
 
 @Service
 public class SpecializationServiceImpl implements ISpecializationService {
@@ -90,6 +91,13 @@ public class SpecializationServiceImpl implements ISpecializationService {
 		List<Specialization> list = repo.findAll();
 		Collections.sort(list, Comparator.comparing(Specialization::getSpecName));
 		return list;
+	}
+
+	@Override
+	public Map<Long, String> getSpecIdAndName() {
+		List<Object[]> list = repo.getSpecIdAndName();
+		Map<Long, String> map = ListToMapConverter.convertListOfObjectArrayToMap(list);
+		return map;
 	}
 
 }
