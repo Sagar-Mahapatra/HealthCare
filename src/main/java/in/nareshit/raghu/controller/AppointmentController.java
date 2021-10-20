@@ -78,7 +78,7 @@ public class AppointmentController {
 			docList = doctorService.getAllDoctors();
 			message = "Result : All Doctors";
 		} else {
-			docList = doctorService.findDoctorBySpecName(specId);
+			docList = doctorService.findDoctorBySpecId(specId);
 			message = "Result : " + specializationService.getOneSpecialization(specId).getSpecName() + " Doctors";
 		}
 		model.addAttribute("docList", docList);

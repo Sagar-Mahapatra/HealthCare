@@ -17,8 +17,8 @@ public interface IDoctorService {
 
 	public void updateDoctor(Doctor doc);
 
-	public List<Doctor> findDoctorBySpecName(Long specId);
-
 	public Map<Long, String> getDoctorIdAndNames();
+
+	List<Doctor> findDoctorBySpecId(Long specId);
 
 }

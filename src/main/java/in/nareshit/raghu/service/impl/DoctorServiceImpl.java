@@ -87,7 +87,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	}
 
 	@Override
-	public List<Doctor> findDoctorBySpecName(Long specId) {
+	public List<Doctor> findDoctorBySpecId(Long specId) {
 		return repo.findDoctorBySpecId(specId);
 	}
 
