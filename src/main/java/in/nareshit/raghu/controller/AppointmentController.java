@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.entity.Doctor;
+import in.nareshit.raghu.exception.AppointmentNotFoundException;
 import in.nareshit.raghu.service.IAppointmentService;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
@@ -35,6 +36,13 @@ public class AppointmentController {
 		model.addAttribute("doctors", doctorService.getDoctorIdAndNames());
 	}
 
+	@GetMapping("/register")
+	public String registerAppointment(Model model) {
+		model.addAttribute("appointment", new Appointment());
+		commonUi(model);
+		return "AppointmentRegister";
+	}
+
 	@PostMapping("/save")
 	public String createAppointment(@ModelAttribute Appointment appointment, RedirectAttributes attr) {
 		Long id = service.saveAppointment(appointment);
@@ -45,6 +53,16 @@ public class AppointmentController {
 		}
 		return "redirect:/index";
 
+	}
+
+	@GetMapping("/viewSlot")
+	public String showSlots(@RequestParam Long id, Model model) {
+		// fetch apps based on doctor id
+		List<Object[]> list = service.getAppoinmentsByDoctor(id);
+		model.addAttribute("list", list);
+		Doctor doc = doctorService.getOneDoctor(id);
+		model.addAttribute("message", "RESULTS SHOWING FOR : " + doc.getFirstName() + " " + doc.getLastName());
+		return "AppointmentSlots";
 	}
 
 	// .. view appointments page..
@@ -79,9 +97,37 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam Long id, RedirectAttributes attr) {
-		service.deleteAppointment(id);
-		attr.addAttribute("message", "Successfully Deleted");
+	public String deleteAppointment(@RequestParam Long id, RedirectAttributes attributes) {
+		try {
+			service.deleteAppointment(id);
+			attributes.addAttribute("message", "Appointment deleted with Id:" + id);
+		} catch (AppointmentNotFoundException e) {
+			e.printStackTrace();
+			attributes.addAttribute("message", e.getMessage());
+		}
+		return "redirect:all";
+	}
+
+	@GetMapping("/edit")
+	public String editAppointment(@RequestParam Long id, Model model, RedirectAttributes attributes) {
+		String page = null;
+		try {
+			Appointment ob = service.getOneAppointment(id);
+			model.addAttribute("appointment", ob);
+			commonUi(model);
+			page = "AppointmentEdit";
+		} catch (AppointmentNotFoundException e) {
+			e.printStackTrace();
+			attributes.addAttribute("message", e.getMessage());
+			page = "redirect:all";
+		}
+		return page;
+	}
+
+	@PostMapping("/update")
+	public String updateAppointment(@ModelAttribute Appointment appointment, RedirectAttributes attributes) {
+		service.updateAppointment(appointment);
+		attributes.addAttribute("message", "Appointment updated");
 		return "redirect:all";
 	}
 
