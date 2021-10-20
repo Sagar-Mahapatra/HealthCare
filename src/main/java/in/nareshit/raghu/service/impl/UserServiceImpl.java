@@ -40,7 +40,7 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		Optional<User> optional = findByUsername(username);
 		if (optional.isPresent()) {
 			User user = optional.get();
-			UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.getUserName(),
+			UserDetails userDetails = new org.springframework.security.core.userdetails.User(username,
 					user.getPassword(), Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
 			System.out.println(userDetails);
 			return userDetails;
