@@ -28,7 +28,8 @@
 						<td th:text="${ob[2]}"></td>
 						<td th:text="${ob[3]}"></td>
 						<td th:text="${ob[4]}"></td>
-						<td><a href="#" class="btn btn-success">BOOK REQ </a></td>
+						<td><a th:href="@{/slots/book(appid=${ob[5]})}"
+							class="btn btn-success">BOOK REQ </a></td>
 					</tr>
 				</table>
 			</div>

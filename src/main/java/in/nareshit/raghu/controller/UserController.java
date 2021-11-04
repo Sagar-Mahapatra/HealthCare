@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ import in.nareshit.raghu.utils.UserUtil;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+	private Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private IUserService service;
@@ -99,6 +103,7 @@ public class UserController {
 			// send message to UI
 			model.addAttribute("message", "PASSWORD UPDATED! CHECK YOUR INBOX!!");
 
+			log.info("UPDATED PASSWORD IS:: " + pwd);
 			// send email to user
 			/*
 			 * if (user.getUId() != null) new Thread(new Runnable() { public void run() {
