@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.repository.UserRepository;
@@ -48,6 +49,12 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 			throw new UsernameNotFoundException("NO USER FOUND WITH THIS USERNAME");
 		}
 
+	}
+
+	@Transactional
+	public void updateUserPwd(String pwd, Integer userId) {
+		String encPwd = encoder.encode(pwd);
+		repo.updateUserPwd(encPwd, userId);
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import in.nareshit.raghu.entity.Patient;
 
-public interface IpatientService {
+public interface IPatientService {
 
 	public Long savePatient(Patient patient);
 
@@ -15,5 +15,7 @@ public interface IpatientService {
 	public Patient getPatientById(Long patientId);
 
 	public void updatePatient(Patient patient);
+
+	public Patient getOneByEmail(String email);
 
 }

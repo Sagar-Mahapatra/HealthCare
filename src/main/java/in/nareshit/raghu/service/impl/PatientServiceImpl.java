@@ -3,23 +3,55 @@ package in.nareshit.raghu.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Patient;
+import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.exception.PatientNotFoundException;
 import in.nareshit.raghu.repository.PatientRepository;
-import in.nareshit.raghu.service.IpatientService;
+import in.nareshit.raghu.service.IPatientService;
+import in.nareshit.raghu.service.IUserService;
+import in.nareshit.raghu.utils.PasswordGenerator;
 
 @Service
-public class PatientServiceImpl implements IpatientService {
+public class PatientServiceImpl implements IPatientService {
+
+	Logger log = LoggerFactory.getLogger(PatientServiceImpl.class);
+
 	@Autowired
 	private PatientRepository patientRepo;
 
-	@Override
-	public Long savePatient(Patient patient) {
-		return patientRepo.save(patient).getPatientId();
+	@Autowired
+	private PasswordGenerator util;
 
+	@Autowired
+	private IUserService userService;
+
+	@Override
+	@Transactional
+	public Long savePatient(Patient patient) {
+		Long id = patientRepo.save(patient).getPatientId();
+		if (id != null) {
+			String pwd = util.genPwd();
+			User user = new User();
+			user.setDisplayName(patient.getPatientFirstName() + " " + patient.getPatientLastName());
+			user.setUserName(patient.getEmail());
+			user.setPassword(pwd);
+			user.setRole(UserRoles.PATIENT.name());
+			userService.saveUser(user);
+			log.info("Your name is " + patient.getEmail() + ", password is " + pwd);
+			/*
+			 * if(genId!=null) new Thread(new Runnable() { public void run() { String text =
+			 * "Your name is " + patient.getEmail() +", password is "+ pwd;
+			 * mailUtil.send(patient.getEmail(), "PATIENT ADDED", text); } }).start();
+			 */
+		}
+		return id;
 	}
 
 	@Override
@@ -51,6 +83,16 @@ public class PatientServiceImpl implements IpatientService {
 			patientRepo.save(patient);
 		} else
 			throw new PatientNotFoundException(patient.getPatientId() + ", not exist");
+	}
+
+	@Override
+	public Patient getOneByEmail(String email) {
+		Optional<Patient> opt = patientRepo.findByEmail(email);
+		if (opt.isPresent()) {
+			return opt.get();
+		} else {
+			throw new PatientNotFoundException("PATIENT NOT FOUND WITH THIS EMAIL:: " + email);
+		}
 	}
 
 }

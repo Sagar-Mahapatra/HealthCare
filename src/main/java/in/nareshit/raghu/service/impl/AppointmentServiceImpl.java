@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.exception.AppointmentNotFoundException;
@@ -59,6 +60,16 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	@Override
 	public List<Object[]> getAppoinmentsByDoctor(Long id) {
 		return repo.getAppointmentByDoctorId(id);
+	}
+
+	@Override
+	public List<Object[]> getAppoinmentsByDoctorEmail(String userName) {
+		return repo.getAppoinmentsByDoctorEmail(userName);
+	}
+
+	@Transactional
+	public void updateSlotCountForAppoinment(Long id, int count) {
+		repo.updateSlotCountForAppoinment(id, count);
 	}
 
 }

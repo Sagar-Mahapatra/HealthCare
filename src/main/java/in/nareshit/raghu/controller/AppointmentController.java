@@ -130,5 +130,6 @@ public class AppointmentController {
 		attributes.addAttribute("message", "Appointment updated");
 		return "redirect:all";
 	}
+	
 
 }

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.exception.PatientNotFoundException;
-import in.nareshit.raghu.service.IpatientService;
+import in.nareshit.raghu.service.IPatientService;
 
 /**
  * @author:RAGHU SIR Generated F/w:SHWR-Framework
@@ -23,7 +23,7 @@ import in.nareshit.raghu.service.IpatientService;
 @RequestMapping("/patient")
 public class PatientController {
 	@Autowired
-	private IpatientService service;
+	private IPatientService service;
 
 	@GetMapping("/register")
 	public String registerPatient(Model model) {
