@@ -1,5 +1,7 @@
 package in.nareshit.raghu.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.exception.SpecNotFoundException;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.utils.ViewExcel;
+import in.nareshit.raghu.utils.ViewPDF;
 
 @Controller
 @RequestMapping("/spec")
@@ -110,8 +113,18 @@ public class SpecializationController {
 	@GetMapping("/excel")
 	public ModelAndView viewExcel() {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("list", service.getAllSpecializations());
+		modelAndView.addObject("list", service.getSpecializationsList());
 		modelAndView.setView(new ViewExcel());
+		return modelAndView;
+
+	}
+
+	@GetMapping("/pdf")
+	public ModelAndView viewPdf() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setView(new ViewPDF());
+		List<Specialization> list = service.getSpecializationsList();
+		modelAndView.addObject("list", list);
 		return modelAndView;
 
 	}
